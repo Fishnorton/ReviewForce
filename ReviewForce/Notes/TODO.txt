@@ -1,0 +1,2 @@
+TODO Items:
+- Add validation to the Review trigger to ensure that we cannot have multiple reviews with the same visit date (window)
