@@ -20,7 +20,7 @@ public class ReviewsTriggerHandler extends fflib_SObjectDomain {
     private void updateLastReviewDateOnLocation(List<Review__c> reviews){
         Set<Id> locationIds = Reviews.newInstance(reviews).getLocationIds();
 
-        LocationsServiceImpl.updateLastReviewDate(locationIds);
+        LocationsService.updateLastReviewDate(locationIds);
     }
 
 

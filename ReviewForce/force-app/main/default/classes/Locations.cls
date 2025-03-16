@@ -16,10 +16,15 @@ public with sharing class Locations extends fflib_SObjects implements ILocations
         return (List<Location__c>) getRecords();
     }
 
-    public void updateLastReviewDate(){
-        //Runs the logic to get the last review date from the reviews
+    public void updateLastReviewDate(Map<Id, Date> lastReviewDateByLocationId, fflib_ISObjectUnitOfWork uow){
+        //Check what the current last review date is
+
         for(Location__c location : getLocations()){
-            location.Last_Review_Date__c = date.temp;
+            Date lastReviewDate = lastReviewDateByLocationId.get(location.Id);
+            if(lastReviewDate != location.Last_Review_Date__c){
+                location.Last_Review_Date__c = lastReviewDate;
+                uow.registerDirty(location);
+            }
         }
     }
 

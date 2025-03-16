@@ -19,15 +19,9 @@ public with sharing class LocationsServiceImpl {
         
         fflib_ISObjectUnitOfWork uow = Application.UnitOfWork.newInstance();
         
-        //TODO: Change this to use the selector
-        List<Location__c> locations = [SELECT Id, Last_Review_Date__c FROM Location__c WHERE Id IN :locationIds];
-        //TODO: Change this to use the selecotr
-        Map<Id, Review__c> mostRecentReviewByLocationId = retrieveMostRecentReviewByLocationId(locationIds);
-        
-        //TODO: Alternatively, we could use somethign that allows us to query locationsWithReviews
-
-        ILocations locations = (ILocations)Application.Domain.newInstance(locationIds);
-        locations.updateLastReviewDate();
+        ILocations locations = (ILocations) Application.Domain.newInstance(locationIds);
+        Map<Id, Date> lastReviewDateByLocationId = null; //Use selector to query the dates
+        locations.updateLastReviewDate(lastReviewDateByLocationId, uow);
 
         uow.commitWork();
     }
