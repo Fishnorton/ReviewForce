@@ -1,3 +1,3 @@
 public interface IReviews {
-    Set<Id> getLocationIds();
+    Set<Id> getPlaceIds();
 }

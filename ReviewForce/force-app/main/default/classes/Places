@@ -1,0 +1,35 @@
+public with sharing class Places extends fflib_SObjects implements IPlaces {
+
+    public static IPlaces newInstance(Set<Id> PlaceIds){
+        return (IPlaces) Application.Domain.newInstance(PlaceIds);
+    }
+
+    public static IPlaces newInstance(List<Place__c> Places){
+        return (IPlaces) Application.Domain.newInstance(Places);
+    }
+
+    public Places(List<Place__c> sObjectList) {
+        super(sObjectList, Schema.Places__c.SObjectType);
+    }
+
+    public List<Place__c> getPlaces(){
+        return (List<Place__c>) getRecords();
+    }
+
+    public void updateLastReviewDate(Map<Id, Date> lastReviewDateByPlaceId, fflib_ISObjectUnitOfWork uow){
+        for(Place__c Place : getPlaces()){
+            Date lastReviewDate = lastReviewDateByPlaceId.get(Place.Id);
+            if(lastReviewDate != Place.Last_Review_Date__c){
+                Place.Last_Review_Date__c = lastReviewDate;
+                uow.registerDirty(Place);
+            }
+        }
+    }
+
+    public class Constructor implements fflib_IDomainConstructor {
+        
+        public fflib_SObjects construct(List<SObject> objectList){
+            return new Places((List<SObject>) objectList);
+        }
+    }
+}

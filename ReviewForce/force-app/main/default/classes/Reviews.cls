@@ -10,11 +10,11 @@ public class Reviews extends fflib_SObjects implements IReviews{
 
     
 
-    public Set<Id> getLocationIds(){
-        Set<Id> locationIds = new Set<Id>();
+    public Set<Id> getPlaceIds(){
+        Set<Id> PlaceIds = new Set<Id>();
         for(Review__c review : (List<Review__c>) getRecords()){
-            locationIds.add(review.Location__c);
+            PlaceIds.add(review.Place__c);
         }
-        return locationIds;
+        return PlaceIds;
     }
 }

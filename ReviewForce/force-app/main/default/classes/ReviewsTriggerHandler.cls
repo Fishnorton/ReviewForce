@@ -5,22 +5,25 @@ public class ReviewsTriggerHandler extends fflib_SObjectDomain {
 
     public override void onAfterInsert(){
         
-        updateLastReviewDateOnLocation(this.records);
+        updateLastReviewDateOnPlace(this.records);
     }
 
     public override void onAfterUpdate(){
-        //Update the last review date
-        List<Review__c> reviewsWithModifiedReviewDate = (List<Review__c>) this.records.getChangedRecords(new Set<String>{'Review_Date__c'});
-        if(reviewsWithModifiedReviewDate.isEmpty()){ return;}
-        updateLastReviewDateOnLocation(reviewsWithModifiedReviewDate);
-
-        //Do something else
+        //Do nothing
     }
 
-    private void updateLastReviewDateOnLocation(List<Review__c> reviews){
-        Set<Id> locationIds = Reviews.newInstance(reviews).getLocationIds();
+    public override void onAfterDelete(){
+        updateLastReviewDateOnPlace(this.records);
+    }
 
-        LocationsService.updateLastReviewDate(locationIds);
+    public override void onAfterUndelete(){
+        updateLastReviewDateOnPlace(this.records);
+    }
+
+    private void updateLastReviewDateOnPlace(List<Review__c> reviews){
+        Set<Id> PlaceIds = Reviews.newInstance(reviews).getPlaceIds();
+
+        PlacesService.updateLastReviewDate(PlaceIds);
     }
 
 
